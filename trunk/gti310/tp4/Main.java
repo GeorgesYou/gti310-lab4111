@@ -42,10 +42,9 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Squeeze Light Media Codec !");
-		args = new String[]{"peppers.ppm"};
-		if (args.length==1)
-			new ConvertColor().convertRGBToYUV(new PPMReaderWriter().readPPMFile(args[0]));
+		args = new String[]{"peppers.ppm","70"};
+		if (args.length==2)
+			new ConvertColor().convertRGBToYUV(PPMReaderWriter.readPPMFile(args[0]));
 		
 		
 	}
