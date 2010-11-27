@@ -9,7 +9,7 @@ public class BlocManager {
 	{
 		List<int[][][]> blocs = new LinkedList<int[][][]>();
 		int[][][] bloc = new int[Main.COLOR_SPACE_SIZE][8][8];
-		for (int i=0;i<=(tab[0].length/8);i++)
+		for (int i=0;i<(tab[0].length/8);i++)
 		{
 			bloc = new int[Main.COLOR_SPACE_SIZE][8][8];
 			for (int j=0;j<8;j++)
