@@ -1,14 +1,14 @@
 package gti310.tp4;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class ZigZag {	
 	//http://www.developpez.net/forums/d278811/autres-langages/algorithmes/lecture-matrice-zigzag/
-	public static List<int[][]> GetAC(List<int[][][]> blocs)
+	public static int[][][] GetAC(List<int[][][]> blocs)
 	{
-		List<int[][]> ACs = new LinkedList<int[][]>();
-		
+		int[][] ACs = new int[Main.COLOR_SPACE_SIZE][];
+		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][][];
+		        
 		for (int[][][] bloc : blocs)
 		{
 			int[][] AC = new int[Main.COLOR_SPACE_SIZE][];
@@ -74,10 +74,66 @@ public class ZigZag {
 			    }
 			}
 			
-			ACs.add(AC);
+			for (int v=0;v<8;v++)
+			{
+				ACs[Main.Y][blocs.indexOf(bloc)*8+v]=AC[Main.Y][v];
+				ACs[Main.U][blocs.indexOf(bloc)*8+v]=AC[Main.U][v];
+				ACs[Main.V][blocs.indexOf(bloc)*8+v]=AC[Main.V][v];
+			}
 		}
-		//Beuuuuh, tout transformer en (runlenght,value)... =(
-		return ACs;
+		
+		int zeros=0;
+		int k=0;
+		for (int val : ACs[Main.Y])
+		{
+			if (val==0)
+				zeros++;
+			else
+			{
+				ACsToWrite[Main.Y][k][0]=zeros;
+				ACsToWrite[Main.Y][k][1]=val;
+				zeros=0;
+				k++;
+			}
+		}
+		ACsToWrite[Main.Y][k][0]=0;
+		ACsToWrite[Main.Y][k][1]=0;
+		
+		zeros=0;
+		k=0;
+		for (int val : ACs[Main.U])
+		{
+			if (val==0)
+				zeros++;
+			else
+			{
+				ACsToWrite[Main.U][k][0]=zeros;
+				ACsToWrite[Main.U][k][1]=val;
+				zeros=0;
+				k++;
+			}
+		}
+		ACsToWrite[Main.U][k][0]=0;
+		ACsToWrite[Main.U][k][1]=0;
+		
+		zeros=0;
+		k=0;
+		for (int val : ACs[Main.V])
+		{
+			if (val==0)
+				zeros++;
+			else
+			{
+				ACsToWrite[Main.V][k][0]=zeros;
+				ACsToWrite[Main.V][k][1]=val;
+				zeros=0;
+				k++;
+			}
+		}
+		ACsToWrite[Main.V][k][0]=0;
+		ACsToWrite[Main.V][k][1]=0;
+		
+		return ACsToWrite;
 	}
 	
 	public static int[][] GetDC(List<int[][][]> blocs)
