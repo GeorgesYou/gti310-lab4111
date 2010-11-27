@@ -16,19 +16,19 @@ public class DCTManager {
 		List<int[][][]> Fs = new LinkedList<int[][][]>();
 		double Fy = 0;
 		int[] Fy1 = new int[8];
-		int[][] Fy2 = new int[8][8];
+		int[][] Fy2 = new int[8][];
 		double Fu = 0;
 		int[] Fu1 = new int[8];
-		int[][] Fu2 = new int[8][8];
+		int[][] Fu2 = new int[8][];
 		double Fv = 0;
 		int[] Fv1 = new int[8];
-		int[][] Fv2 = new int[8][8];
+		int[][] Fv2 = new int[8][];
 		
 		for (int[][][] bloc : blocs)
 		{
-			Fy2 = new int[8][8];
-			Fu2 = new int[8][8];
-			Fv2 = new int[8][8];
+			Fy2 = new int[8][];
+			Fu2 = new int[8][];
+			Fv2 = new int[8][];
 			for (int u=0;u<8;u++)
 			{
 				Fy1=new int[8];
@@ -49,9 +49,9 @@ public class DCTManager {
 					Fy*=(C(u)*C(v)/4);
 					Fu*=(C(u)*C(v)/4);
 					Fv*=(C(u)*C(v)/4);
-					Fy1[v]=(int)Fy;
-					Fu1[v]=(int)Fu;
-					Fv1[v]=(int)Fv;
+					Fy1[v]=(int)Math.round(Fy);
+					Fu1[v]=(int)Math.round(Fu);
+					Fv1[v]=(int)Math.round(Fv);
 				}
 				Fy2[u]=Fy1;
 				Fu2[u]=Fu1;
