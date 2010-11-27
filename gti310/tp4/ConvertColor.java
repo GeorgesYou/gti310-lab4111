@@ -21,26 +21,21 @@ public class ConvertColor {
 				int U = (int)(0.492*(image[Main.B][i][j]-Y));
 				int V = (int)(0.877*(image[Main.R][i][j]-Y));
 				
-
 				
 				if(Y < 0 )
 				{
-					System.out.println("Couleur négative Y : " + Y);
-					Y = (Math.abs(Y)*255)/(255+Math.abs(Y));
-					
-					System.out.println("Couleur corrigée Y : " +Y);
+					Y = (Math.abs(Y)*255)/(255+Math.abs(Y));				
+
 				}else if(Y>255)
 				{
+					System.out.println("Couleur négative U : " +U);
 					
+					System.out.println("Couleur corrigée Y : " +Y);
 				}
 				
 				if(U < 0)
 				{
-					System.out.println("Couleur négative U : " +U);
-					
 					U = (Math.abs(U)*255)/(255+Math.abs(U));
-						
-					System.out.println("Couleur corrigée U : " +U);
 				}
 				else if(U>255)
 				{
@@ -49,9 +44,7 @@ public class ConvertColor {
 				
 				if(V < 0 )
 				{
-					System.out.println("Couleur négative V : " +V);
-					V = (Math.abs(V)*255)/(255+Math.abs(V));	
-					System.out.println("Couleur corrigée V : " +V);
+					V = (Math.abs(V)*255)/(255+Math.abs(V));
 				}else if(V>255)
 				{
 					
