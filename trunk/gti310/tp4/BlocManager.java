@@ -11,15 +11,18 @@ public class BlocManager {
 		int[][][] bloc = new int[Main.COLOR_SPACE_SIZE][8][8];
 		for (int i=0;i<(tab[0].length/8);i++)
 		{
-			bloc = new int[Main.COLOR_SPACE_SIZE][8][8];
-			for (int j=0;j<8;j++)
-				for (int k=0;k<8;k++)
-				{
-					bloc[Main.Y][j][k]=tab[Main.Y][j+i*8][k+i*8];
-					bloc[Main.U][j][k]=tab[Main.U][j+i*8][k+i*8];
-					bloc[Main.V][j][k]=tab[Main.V][j+i*8][k+i*8];
-				}
-			blocs.add(bloc);
+			for (int l=0;l<(tab[0][i].length/8);l++)
+			{
+				bloc = new int[Main.COLOR_SPACE_SIZE][8][8];
+				for (int j=0;j<8;j++)
+					for (int k=0;k<8;k++)
+					{
+						bloc[Main.Y][j][k]=tab[Main.Y][j+i*8][k+l*8];
+						bloc[Main.U][j][k]=tab[Main.U][j+i*8][k+l*8];
+						bloc[Main.V][j][k]=tab[Main.V][j+i*8][k+l*8];
+					}
+				blocs.add(bloc);
+			}
 		}
 		return blocs;
 	}
