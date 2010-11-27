@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Quantification {
-
-
 	private static int[][] Y = new int[8][8];
 	private static int[][] UV = new int[8][8];
 	
