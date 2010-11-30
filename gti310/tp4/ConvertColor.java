@@ -10,7 +10,7 @@ public class ConvertColor {
 	public int[][][] convertRGBToYUV(int[][][] image)
 	{
 		
-		int[][][] imageYUV = new int[Main.COLOR_SPACE_SIZE][][];
+		int[][][] imageYUV = new int[Main.COLOR_SPACE_SIZE][image.length][image[0].length];
 		
 		for(int i = 0; i < image.length; i++)
 		{
@@ -21,44 +21,35 @@ public class ConvertColor {
 				int U = (int)(0.492*(image[Main.B][i][j]-Y));
 				int V = (int)(0.877*(image[Main.R][i][j]-Y));
 				
-				
-				if(Y < 0 )
-				{
-					Y = (Math.abs(Y)*255)/(255+Math.abs(Y));				
-
-				}else if(Y>255)
-				{
-					System.out.println("Couleur négative U : " +U);
-					
-					System.out.println("Couleur corrigée Y : " +Y);
-				}
-				
-				if(U < 0)
-				{
-					U = (Math.abs(U)*255)/(255+Math.abs(U));
-				}
-				else if(U>255)
-				{
-					
-				}
-				
-				if(V < 0 )
-				{
-					V = (Math.abs(V)*255)/(255+Math.abs(V));
-				}else if(V>255)
-				{
-					
-				}
-				
-				
-			/*	imageYUV[Main.Y][i][j]=Y;
+				imageYUV[Main.Y][i][j]=Y;
 				imageYUV[Main.U][i][j]=U;
-				imageYUV[Main.V][i][j]=V;	
-				*/
+				imageYUV[Main.V][i][j]=V;					
 			}			
-		}
-		
+		}		
 		
 		return imageYUV;
 	}
+	
+	/*public int[][][] convertYUVToRGB(int[][][] image)
+	{
+		int[][][] imageRGB = new int[Main.COLOR_SPACE_SIZE][image.length][image[0].length];
+		
+		for(int i = 0; i < image.length; i++)
+		{
+			for(int j = 0; j < image[0].length;j++)
+			{
+							
+				int R = (int)(0.299*image[Main.R][i][j] + 0.587*image[Main.G][i][j] +0.114*image[Main.B][i][j]);
+				int G = (int)(0.492*(image[Main.B][i][j]-Y));
+				int B = (int)(0.877*(image[Main.R][i][j]-Y));
+				
+				imageRGB[Main.R][i][j]=R;
+				imageRGB[Main.G][i][j]=G;
+				imageRGB[Main.B][i][j]=B;					
+			}			
+		}	
+		
+		return imageRGB;
+	}*/
+	
 }
