@@ -6,12 +6,6 @@ import java.util.List;
 public class ZigZag {	
 	//http://www.developpez.net/forums/d278811/autres-langages/algorithmes/lecture-matrice-zigzag/
 	
-	//http://www.java2s.com/Code/Java/2D-Graphics-GUI/Performsajpegcompressionofanimage.htm
-	public static int[] jpegNaturalOrder = { 0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5,
-	      12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57, 50, 43, 36,
-	      29, 22, 15, 23, 30, 37, 44, 51, 58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62,
-	      63, };
-	
 	public static int[][][] GetAC(List<int[][][]> blocs)
 	{
 		int[][] ACs = new int[Main.COLOR_SPACE_SIZE][blocs.size()*blocs.get(0)[0].length*blocs.get(0)[0][0].length];
@@ -181,12 +175,12 @@ public class ZigZag {
 			DCs[Main.V][i]=DCs[Main.V][i]+DCs[Main.V][i-1];
 		}
 		
-		for (int DC : DCs[Main.Y])
+		for (int i=0;i<DCs[Main.Y].length;i++)
 		{
 			int[][][] bloc = new int[Main.COLOR_SPACE_SIZE][8][8];
-			bloc[Main.Y][0][0]=DC;
-			bloc[Main.U][0][0]=DC;
-			bloc[Main.V][0][0]=DC;
+			bloc[Main.Y][0][0]=DCs[Main.Y][i];
+			bloc[Main.U][0][0]=DCs[Main.U][i];
+			bloc[Main.V][0][0]=DCs[Main.V][i];
 			blocs.add(bloc);
 		}
 		
@@ -240,14 +234,18 @@ public class ZigZag {
 		
 		for (int[][][] bloc : blocs)
 		{
-			for (int i=1;i<64;i++)
+			for (int i=0;i<63;i++)
 			{
 				listACs2[0][ZigZagOrder[i]]=listACs[0][i+blocs.indexOf(bloc)*63];
+				listACs2[1][ZigZagOrder[i]]=listACs[1][i+blocs.indexOf(bloc)*63];
+				listACs2[2][ZigZagOrder[i]]=listACs[2][i+blocs.indexOf(bloc)*63];
 			}
 			
 			for (int i=1;i<64;i++)
 			{
-				bloc[0][i/8][i%8] = listACs2[0][i];
+				bloc[0][i/8][i%8] = listACs2[0][i-1];
+				bloc[1][i/8][i%8] = listACs2[1][i-1];
+				bloc[2][i/8][i%8] = listACs2[2][i-1];
 			}
 		}
 		
