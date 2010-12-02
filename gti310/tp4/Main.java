@@ -45,10 +45,12 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		args = new String[]{"monalisa.ppm","70"};
-		if (args.length==2)
+//		args = new String[]{"monalisa.ppm","70"};
+		args = new String[]{"output.szl"};
+
+		if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
 		{
-			if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
+			if (args.length==2)
 			{
 				List<int[][][]> blocs = new LinkedList<int[][][]>();
 				blocs = Quantification.Do(DCTManager.DCT(BlocManager.split(ConvertColor.convertRGBToYUV(PPMReaderWriter.readPPMFile(args[0])))),Integer.parseInt(args[1]));
@@ -77,43 +79,40 @@ public class Main {
 				
 				SZLReaderWriter.writeSZLFile("output.szl", PPMReaderWriter.readPPMFile(args[0])[0].length, PPMReaderWriter.readPPMFile(args[0])[0][0].length, Integer.parseInt(args[1]));
 			}
+		}
+		
+		if (args[0].substring(args[0].length()-3, args[0].length()).equals("szl"))
+		{
+			int[] header = SZLReaderWriter.readSZLFile(args[0]);
+			int height = header[0];
+			int width = header[1];
+			int space = header[2];
+			int fq = header[3];
+				if (space!=3) System.exit(0); //WTF?!
+			int[][][] ACs = new int[space][width*height*63/64][2];
+			int[][] DCs = new int[space][(width*height/64)];
 			
-
-			if (args[0].substring(args[0].length()-3, args[0].length()).equals("szl"))
-			{
-				int[] header = SZLReaderWriter.readSZLFile(args[0]);
-				int height = header[0];
-				int width = header[1];
-				int space = header[2];
-				int fq = header[3];
-				
-				int[][][] ACs = new int[space][width*height*63/64][2];
-				int[][] DCs = new int[space][(width*height/64)];
-				
-				//DC
-				for (int i=0;i<(width*height/64);i++)
-					DCs[0][i]=Entropy.readDC();
-				
-				for (int i=0;i<(width*height/64);i++)
-					DCs[1][i]=Entropy.readDC();
-				
-				for (int i=0;i<(width*height/64);i++)
-					DCs[2][i]=Entropy.readDC();
-				
-				//AC
-				for (int i=0;i<(width*height*63/64);i++)
-					ACs[0][i] = Entropy.readAC();
-				
-				for (int i=0;i<(width*height*63/64);i++)
-					ACs[1][i] = Entropy.readAC();
-				
-				for (int i=0;i<(width*height*63/64);i++)
-					ACs[2][i] = Entropy.readAC();
-				
-				ZigZag.CreateBlocs(DCs,ACs);
-				
-				
-			}
+			//DC
+			for (int i=0;i<(width*height/64);i++)
+				DCs[0][i]=Entropy.readDC();
+			
+			for (int i=0;i<(width*height/64);i++)
+				DCs[1][i]=Entropy.readDC();
+			
+			for (int i=0;i<(width*height/64);i++)
+				DCs[2][i]=Entropy.readDC();
+			
+			//AC
+			for (int i=0;i<(width*height*63/64);i++)
+				ACs[0][i] = Entropy.readAC();
+			
+			for (int i=0;i<(width*height*63/64);i++)
+				ACs[1][i] = Entropy.readAC();
+			
+			for (int i=0;i<(width*height*63/64);i++)
+				ACs[2][i] = Entropy.readAC();
+			
+			PPMReaderWriter.writePPMFile("output2.ppm", ConvertColor.convertYUVToRGB(BlocManager.merge(DCTManager.iDCT(Quantification.UnDo(ZigZag.CreateBlocs(DCs,ACs), fq)), width, height)));				
 		}
 	}
 }
