@@ -28,17 +28,18 @@ public class BlocManager {
 	}
 	
 	
-	public static int[][][] merge(List<int[][][]> blocs)
+	public static int[][][] merge(List<int[][][]> blocs, int w, int h)
 	{
-		int[][][] tab = new int[Main.COLOR_SPACE_SIZE][][];
+		int[][][] tab = new int[Main.COLOR_SPACE_SIZE][w*blocs.size()][h*blocs.size()];
 		
-		for (int[][][] bloc : blocs)
+//		for (int[][][] bloc : blocs)
+		for (int b=0;b<blocs.size();b++)
 			for (int i=0;i<8;i++)
 				for (int j=0;j<8;j++)
 				{
-					tab[Main.Y][i+8*blocs.indexOf(bloc)][j+8*blocs.indexOf(bloc)]=bloc[Main.Y][i][j];
-					tab[Main.U][i+8*blocs.indexOf(bloc)][j+8*blocs.indexOf(bloc)]=bloc[Main.U][i][j];
-					tab[Main.V][i+8*blocs.indexOf(bloc)][j+8*blocs.indexOf(bloc)]=bloc[Main.V][i][j];
+					tab[Main.Y][i+8*b][j+8*b]=blocs.get(b)[Main.Y][i][j];
+					tab[Main.U][i+8*b][j+8*b]=blocs.get(b)[Main.U][i][j];
+					tab[Main.V][i+8*b][j+8*b]=blocs.get(b)[Main.V][i][j];
 				}
 		
 		return tab;
