@@ -4,14 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ZigZag {	
-	//http://www.developpez.net/forums/d278811/autres-langages/algorithmes/lecture-matrice-zigzag/
 	
 	public static int[][][] GetAC(List<int[][][]> blocs)
 	{
-		int[][] ACs = new int[Main.COLOR_SPACE_SIZE][blocs.size()*blocs.get(0)[0].length*blocs.get(0)[0][0].length];
-		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][blocs.size()*63+1][2];
+		int[][] ACs = new int[Main.COLOR_SPACE_SIZE][blocs.size()*63];
+//		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][blocs.size()*63][2];
 
-		for (int[][][] bloc : blocs)
+//		for (int[][][] bloc : blocs)
+		for (int b=0;b<blocs.size();b++)
 		{
 			int[][] AC = new int[Main.COLOR_SPACE_SIZE][63];
 			
@@ -29,134 +29,104 @@ public class ZigZag {
 				for (int j=0;j<8;j++)
 					if (!(i==0 && j==0))
 					{
-						AC[Main.Y][ZigZagOrder[i*8+j]-1]=bloc[Main.Y][i][j];
-						AC[Main.U][ZigZagOrder[i*8+j]-1]=bloc[Main.U][i][j];
-						AC[Main.V][ZigZagOrder[i*8+j]-1]=bloc[Main.V][i][j];
+						AC[Main.Y][ZigZagOrder[i*8+j]-1]=blocs.get(b)[Main.Y][i][j];
+						AC[Main.U][ZigZagOrder[i*8+j]-1]=blocs.get(b)[Main.U][i][j];
+						AC[Main.V][ZigZagOrder[i*8+j]-1]=blocs.get(b)[Main.V][i][j];
 					}
-			
-//			boolean up=false;
-//			int i=0,j=0,k=0;
-//			int maxI=7,maxJ=7;
-//			
-//			while (i <= maxI && j <= maxJ)
-//			{
-//				if (!(i==0 && j==0))
-//				{
-////					System.out.println(bloc[Main.Y][i][j]);
-//					AC[Main.Y][k]=bloc[Main.Y][i][j];
-//					AC[Main.U][k]=bloc[Main.U][i][j];
-//					AC[Main.V][k]=bloc[Main.V][i][j];
-//					k++;
-//				}
-//				
-//				if (i == 0 || i == maxI) 
-//				{
-//			        if (j == maxJ)
-//			        {
-//			            j--;
-//			            i++;
-//			        }
-//			        j++;
-////			        System.out.println(bloc[Main.Y][i][j]);
-//			        AC[Main.Y][k]=bloc[Main.Y][i][j];
-//					AC[Main.U][k]=bloc[Main.U][i][j];
-//					AC[Main.V][k]=bloc[Main.V][i][j];
-//					k++;
-//				}
-//			    else
-//			    {
-//			        if (j == 0 || j == maxJ)
-//			        {
-//			            if (i == maxI)
-//			            {
-//			                i--;
-//			                j++;
-//			            }
-//			            i++;
-////			            System.out.println(bloc[Main.Y][i][j]);
-//			            AC[Main.Y][k]=bloc[Main.Y][i][j];
-//						AC[Main.U][k]=bloc[Main.U][i][j];
-//						AC[Main.V][k]=bloc[Main.V][i][j];
-//						k++;
-//			        }
-//			    }
-//			        
-//			    if (i == 0 || j == maxJ) 
-//			    	up = false;
-//			    if (j == 0 || i == maxI) 
-//			    	up = true;
-//			    
-//			    if (up) 
-//			    {
-//			        i--;
-//			        j++;
-//			    }
-//			    else
-//			    {
-//			        i++;
-//			        j--;
-//			    }
-//			}
-			
+
 			for (int v=0;v<63;v++)
 			{
-				ACs[Main.Y][blocs.indexOf(bloc)*8+v]=AC[Main.Y][v];
-				ACs[Main.U][blocs.indexOf(bloc)*8+v]=AC[Main.U][v];
-				ACs[Main.V][blocs.indexOf(bloc)*8+v]=AC[Main.V][v];
+				ACs[Main.Y][b*63+v]=AC[Main.Y][v];
+				ACs[Main.U][b*63+v]=AC[Main.U][v];
+				ACs[Main.V][b*63+v]=AC[Main.V][v];
+//				System.out.println("place:"+(b*64+v)+" "+ACs[Main.Y][b*8+v]);
 			}
 		}
 		
+//		for (int val:ACs[Main.Y])
+//		{
+//			System.out.println(ACs[Main.Y][150]);
+//		}
+		
+		List<int[]> Y= new LinkedList<int[]>();
 		int zeros=0;
-		int k=0;
+//		int k=0;
 		for (int val : ACs[Main.Y])
 		{
 			if (val==0)
 				zeros++;
 			else
 			{
-				ACsToWrite[Main.Y][k][0]=zeros;
-				ACsToWrite[Main.Y][k][1]=val;
+				int[] tab = {zeros,val};
+				Y.add(tab);
+//				ACsToWrite[Main.Y][k][0]=zeros;
+//				ACsToWrite[Main.Y][k][1]=val;
 				zeros=0;
-				k++;
+//				k++;
 			}
 		}
-		ACsToWrite[Main.Y][k][0]=0;
-		ACsToWrite[Main.Y][k][1]=0;
-		
+		{int[] tab = {0,0};
+		Y.add(tab);}
+//		ACsToWrite[Main.Y][k][0]=0;
+//		ACsToWrite[Main.Y][k][1]=0;
+
+		List<int[]> U= new LinkedList<int[]>();
 		zeros=0;
-		k=0;
+//		k=0;
 		for (int val : ACs[Main.U])
 		{
 			if (val==0)
 				zeros++;
 			else
 			{
-				ACsToWrite[Main.U][k][0]=zeros;
-				ACsToWrite[Main.U][k][1]=val;
+				int[] tab = {zeros,val};
+				U.add(tab);
+//				ACsToWrite[Main.U][k][0]=zeros;
+//				ACsToWrite[Main.U][k][1]=val;
 				zeros=0;
-				k++;
+//				k++;
 			}
 		}
-		ACsToWrite[Main.U][k][0]=0;
-		ACsToWrite[Main.U][k][1]=0;
-		
+		{int[] tab = {0,0};
+		U.add(tab);}
+//		ACsToWrite[Main.U][k][0]=0;
+//		ACsToWrite[Main.U][k][1]=0;
+
+		List<int[]> V= new LinkedList<int[]>();
 		zeros=0;
-		k=0;
+//		k=0;
 		for (int val : ACs[Main.V])
 		{
 			if (val==0)
 				zeros++;
 			else
 			{
-				ACsToWrite[Main.V][k][0]=zeros;
-				ACsToWrite[Main.V][k][1]=val;
+				int[] tab = {zeros,val};
+				V.add(tab);
+//				ACsToWrite[Main.V][k][0]=zeros;
+//				ACsToWrite[Main.V][k][1]=val;
 				zeros=0;
-				k++;
+//				k++;
 			}
 		}
-		ACsToWrite[Main.V][k][0]=0;
-		ACsToWrite[Main.V][k][1]=0;
-		
+		{int[] tab = {0,0};
+		V.add(tab);}
+//		ACsToWrite[Main.V][k][0]=0;
+//		ACsToWrite[Main.V][k][1]=0;
+
+		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][Y.size()][2];
+		for (int i=0;i<Y.size();i++)
+		{
+			ACsToWrite[0][i]=Y.get(i);
+		}
+		for (int i=0;i<U.size();i++)
+		{
+			ACsToWrite[1][i]=U.get(i);
+		}
+		for (int i=0;i<V.size();i++)
+		{
+			ACsToWrite[2][i]=V.get(i);
+		}
 		return ACsToWrite;
 	}
 	
@@ -235,15 +205,6 @@ public class ZigZag {
 		
 		int[][] listACs = new int[Main.COLOR_SPACE_SIZE][Y.size()];
 		int[][] listACs2 = new int[Main.COLOR_SPACE_SIZE][63];
-		int[] ZigZagOrder = { 
-				0,1,5,6,14,15,27,28,
-				2,4,7,13,16,26,29,42,
-				3,8,12,17,25,30,41,43,
-				9,11,18,24,31,40,44,53,
-				10,19,23,32,39,45,52,54,
-				20,22,33,38,46,51,55,60,
-				21,34,37,47,50,56,59,61,
-				35,36,48,49,57,58,62,63};
 		
 		for (int i=0;i<Y.size();i++)
 		{
@@ -251,14 +212,14 @@ public class ZigZag {
 			listACs[1][i]=U.get(i);
 			listACs[2][i]=V.get(i);
 		}
-		
+
 		for (int[][][] bloc : blocs)
 		{
 			for (int i=0;i<63;i++)
 			{
-				listACs2[0][findZigZagOrder(i)/*indice du zigzagorder où y'a le i*/]=listACs[0][i+blocs.indexOf(bloc)*63];
-				listACs2[1][findZigZagOrder(i)/*indice du zigzagorder où y'a le i*/]=listACs[1][i+blocs.indexOf(bloc)*63];
-				listACs2[2][findZigZagOrder(i)/*indice du zigzagorder où y'a le i*/]=listACs[2][i+blocs.indexOf(bloc)*63];
+				listACs2[0][findZigZagOrder(i+1)-1]=listACs[0][i+blocs.indexOf(bloc)*63];
+				listACs2[1][findZigZagOrder(i+1)-1]=listACs[1][i+blocs.indexOf(bloc)*63];
+				listACs2[2][findZigZagOrder(i+1)-1]=listACs[2][i+blocs.indexOf(bloc)*63];
 			}
 			
 			for (int i=1;i<64;i++)
@@ -268,7 +229,6 @@ public class ZigZag {
 				bloc[2][i/8][i%8] = listACs2[2][i-1];
 			}
 		}
-		
 		
 		return blocs;
 	}

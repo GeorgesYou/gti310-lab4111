@@ -18,22 +18,33 @@ public class ZigZagTest extends TestCase{
 				yuv[2][i][j]=i*8+j;
 			}
 		
+		yuv[0][7][7]=0;
+		yuv[1][7][7]=0;
+		yuv[2][7][7]=0;
+		
 		List<int[][][]> blocs = new LinkedList<int[][][]>();
+		blocs.add(yuv);
+		blocs.add(yuv);
 		blocs.add(yuv);
 		
 		int[][][] AC = ZigZag.GetAC(blocs);
-		for (int i=0;i<15;i++)
-				System.out.println(AC[0][i][0]+" zeroes and a "+AC[0][i][1]);
+//		for (int i=0;i<AC[0].length;i++)
+//				System.out.println(AC[0][i][0]+" zeroes and a "+AC[0][i][1]);
 		
 		int[][] DC = ZigZag.GetDC(blocs);
-		for (int i=0;i<DC[0].length;i++)
-			System.out.println("DC is "+DC[0][i]);
+//		for (int i=0;i<DC[0].length;i++)
+//			System.out.println("DC is "+DC[0][i]);
 		
 		List<int[][][]> blocs2 = ZigZag.CreateBlocs(DC, AC);
 		
+		for (int b=0;b<blocs2.size();b++)
 		for (int i=0;i<8;i++)
 			for (int j=0;j<8;j++)
-				System.out.println(blocs.get(0)[0][i][j]+" vs "+blocs2.get(0)[0][i][j]);
-				//assertEquals(blocs.get(0)[0][i][j], blocs2.get(0)[0][i][j]);
+			{
+//				System.out.println(blocs.get(b)[0][i][j]+" vs "+blocs2.get(b)[0][i][j]);
+				assertEquals(blocs.get(b)[0][i][j], blocs2.get(b)[0][i][j]);
+				assertEquals(blocs.get(b)[1][i][j], blocs2.get(b)[1][i][j]);
+				assertEquals(blocs.get(b)[2][i][j], blocs2.get(b)[2][i][j]);
+			}
 	}
 }
