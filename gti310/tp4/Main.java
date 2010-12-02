@@ -48,10 +48,10 @@ public class Main {
 		args = new String[]{"monalisa.ppm","70"};
 		if (args.length==2)
 		{
-			if (args[0].substring(args[0].length()-3, 3).equals("ppm"))
+			if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
 			{
 				List<int[][][]> blocs = new LinkedList<int[][][]>();
-				blocs = Quantification.Do(DCTManager.DCT(BlocManager.split(new ConvertColor().convertRGBToYUV(PPMReaderWriter.readPPMFile(args[0])))),Integer.parseInt(args[1]));
+				blocs = Quantification.Do(DCTManager.DCT(BlocManager.split(ConvertColor.convertRGBToYUV(PPMReaderWriter.readPPMFile(args[0])))),Integer.parseInt(args[1]));
 				int[][][] AC = ZigZag.GetAC(blocs);
 				int[][] DC = ZigZag.GetDC(blocs);
 				
@@ -79,13 +79,13 @@ public class Main {
 			}
 			
 
-			if (args[0].substring(args[0].length()-3, 3).equals("szl"))
+			if (args[0].substring(args[0].length()-3, args[0].length()).equals("szl"))
 			{
 				int[] header = SZLReaderWriter.readSZLFile(args[0]);
 				int height = header[0];
 				int width = header[1];
 				int space = header[2];
-				int quality = header[3];
+				int fq = header[3];
 				
 				int[][][] ACs = new int[space][width*height*63/64][2];
 				int[][] DCs = new int[space][(width*height/64)];
@@ -111,6 +111,8 @@ public class Main {
 					ACs[2][i] = Entropy.readAC();
 				
 				ZigZag.CreateBlocs(DCs,ACs);
+				
+				
 			}
 		}
 	}

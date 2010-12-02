@@ -15,7 +15,7 @@ public class Quantification {
 		List<int[][][]> blocsQuant = new LinkedList<int[][][]>();
 		
 		InitMatrice();
-		int a = (fq<=50 ? (50/fq) : (200-2*fq/100));
+		double a = (fq<=50 ? (double)(50/fq) : (double)(200-2*fq)/100);
 		
 		for (int[][][] bloc : blocs)
 		{
@@ -23,15 +23,42 @@ public class Quantification {
 			for (int i=0;i<8;i++)
 				for (int j=0;j<8;j++)
 				{
-					blocQuant[Main.Y][i][j]=bloc[Main.Y][i][j]/(a*Y[i][j]);
-					blocQuant[Main.U][i][j]=bloc[Main.U][i][j]/(a*UV[i][j]);
-					blocQuant[Main.V][i][j]=bloc[Main.V][i][j]/(a*UV[i][j]);
+					blocQuant[Main.Y][i][j]=(int) Math.round(bloc[Main.Y][i][j]/(a*Y[i][j]));
+					blocQuant[Main.U][i][j]=(int) Math.round(bloc[Main.U][i][j]/(a*UV[i][j]));
+					blocQuant[Main.V][i][j]=(int) Math.round(bloc[Main.V][i][j]/(a*UV[i][j]));
 				}
 			
 			blocsQuant.add(blocQuant);
 		}
 		
 		return blocsQuant;
+	}
+	
+	public static List<int[][][]> UnDo(List<int[][][]> blocs, int fq)
+	{
+		if (fq==100)
+			return blocs;
+		
+		List<int[][][]> blocsUnQuant = new LinkedList<int[][][]>();
+		
+		InitMatrice();
+		double a = (fq<=50 ? (double)(50/fq) : (double)(200-2*fq)/100);
+		
+		for (int[][][] bloc : blocs)
+		{
+			int[][][] blocUnQuant = new int[Main.COLOR_SPACE_SIZE][8][8];
+			for (int i=0;i<8;i++)
+				for (int j=0;j<8;j++)
+				{
+					blocUnQuant[Main.Y][i][j]=(int) Math.round(bloc[Main.Y][i][j]*(a*Y[i][j]));
+					blocUnQuant[Main.U][i][j]=(int) Math.round(bloc[Main.U][i][j]*(a*UV[i][j]));
+					blocUnQuant[Main.V][i][j]=(int) Math.round(bloc[Main.V][i][j]*(a*UV[i][j]));
+				}
+			
+			blocsUnQuant.add(blocUnQuant);
+		}
+		
+		return blocsUnQuant;
 	}
 	
 	private static void InitMatrice()
