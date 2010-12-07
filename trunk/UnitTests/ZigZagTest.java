@@ -35,7 +35,7 @@ public class ZigZagTest extends TestCase{
 //		for (int i=0;i<DC[0].length;i++)
 //			System.out.println("DC is "+DC[0][i]);
 		
-		List<int[][][]> blocs2 = ZigZag.CreateBlocs(DC, AC);
+		List<int[][][]> blocs2 = ZigZag.CreateBlocs(DC, AC, 8*3, 8);
 		
 		for (int b=0;b<blocs2.size();b++)
 		for (int i=0;i<8;i++)
