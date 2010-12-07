@@ -45,7 +45,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		args = new String[]{"monalisa.ppm","70"};
+//		args = new String[]{"lena.ppm","20"};
 		args = new String[]{"output.szl"};
 
 		if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
@@ -60,7 +60,7 @@ public class Main {
 				//DC
 				for (int i=0;i<DC[0].length;i++)
 					Entropy.writeDC(DC[0][i]);
-	
+				
 				for (int i=0;i<DC[1].length;i++)
 					Entropy.writeDC(DC[1][i]);
 	
@@ -88,7 +88,8 @@ public class Main {
 			int width = header[1];
 			int space = header[2];
 			int fq = header[3];
-				if (space!=3) System.exit(0); //WTF?!
+				if (space!=3) System.exit(0);
+				
 			int[][][] ACs = new int[space][width*height*63/64][2];
 			int[][] DCs = new int[space][(width*height/64)];
 			
@@ -103,16 +104,96 @@ public class Main {
 				DCs[2][i]=Entropy.readDC();
 			
 			//AC
-			for (int i=0;i<(width*height*63/64);i++)
-				ACs[0][i] = Entropy.readAC();
+			int i=0;
+			int ibloc=0;
+			int k=0;
+			int eob=0;
+			while (true)
+			{
+				if (i>=(width*height*63/64))
+					break;
+				int[] couple = Entropy.readAC();
+				if (couple[0]==0 && couple[1]==0)
+				{
+					i+=63-ibloc;
+					ibloc=0;
+					eob++;
+				}
+				else
+				{
+					i+=couple[0];
+					ibloc+=couple[0];
+					i+=1;
+					ibloc+=1;
+					ACs[0][k] = couple;
+					k++;
+				}
+			}
+			System.out.println("Y "+k+" "+eob);
 			
-			for (int i=0;i<(width*height*63/64);i++)
-				ACs[1][i] = Entropy.readAC();
+			i=0;
+			ibloc=0;
+			k=0;
+			eob=0;
+			while (true)
+			{
+//				System.out.println("U:i "+i+"   ib "+ibloc);
+				if (i>=(width*height*63/64))
+					break;
+				int[] couple = Entropy.readAC();
+//				System.out.println(" 0:"+couple[0]+"    1:"+couple[1]);
+				if (couple[0]==0 && couple[1]==0)
+				{
+					i+=63-ibloc;
+					ibloc=0;
+					eob++;
+				}
+				else
+				{
+					i+=couple[0];
+					ibloc+=couple[0];
+					i+=1;
+					ibloc+=1;
+					ACs[1][k] = couple;
+					k++;
+				}
+			}
+			System.out.println("U "+k+" "+eob);
 			
-			for (int i=0;i<(width*height*63/64);i++)
-				ACs[2][i] = Entropy.readAC();
+			i=0;
+			ibloc=0;
+			k=0;
+			eob=0;
+			while (true)
+			{
+//				System.out.println("V:i "+i+"   ib "+ibloc);
+				if (i>=(width*height*63/64))
+					break;
+				int[] couple = Entropy.readAC();
+//				System.out.println(" 0:"+couple[0]+"    1:"+couple[1]);
+				if (couple[0]==0 && couple[1]==0)
+				{
+					i+=63-ibloc;
+					ibloc=0;
+					eob++;
+				}
+				else
+				{
+					i+=couple[0];
+					ibloc+=couple[0];
+					i+=1;
+					ibloc+=1;
+					ACs[2][k] = couple;
+					k++;
+				}
+			}
+			System.out.println("V "+k+" "+eob);
 			
-			PPMReaderWriter.writePPMFile("output2.ppm", ConvertColor.convertYUVToRGB(BlocManager.merge(DCTManager.iDCT(Quantification.UnDo(ZigZag.CreateBlocs(DCs,ACs), fq)), width, height)));				
+			PPMReaderWriter.writePPMFile("output2.ppm", 
+					ConvertColor.convertYUVToRGB(
+					BlocManager.merge(DCTManager.iDCT(
+					Quantification.UnDo(
+					ZigZag.CreateBlocs(DCs, ACs, width, height), fq)), width, height)));				
 		}
 	}
 }

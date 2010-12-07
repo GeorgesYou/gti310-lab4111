@@ -7,12 +7,16 @@ public class ZigZag {
 	
 	public static int[][][] GetAC(List<int[][][]> blocs)
 	{
-		int[][] ACs = new int[Main.COLOR_SPACE_SIZE][blocs.size()*63];
-//		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][blocs.size()*63][2];
-
-//		for (int[][][] bloc : blocs)
+//		int[][] ACs = new int[Main.COLOR_SPACE_SIZE][blocs.size()*63];
+		List<int[]> Y= new LinkedList<int[]>();
+		List<int[]> U= new LinkedList<int[]>();
+		List<int[]> V= new LinkedList<int[]>();
+		
 		for (int b=0;b<blocs.size();b++)
 		{
+			int Y0=0;
+			int U0=0;
+			int V0=0;
 			int[][] AC = new int[Main.COLOR_SPACE_SIZE][63];
 			
 			int[] ZigZagOrder = { 
@@ -34,99 +38,69 @@ public class ZigZag {
 						AC[Main.V][ZigZagOrder[i*8+j]-1]=blocs.get(b)[Main.V][i][j];
 					}
 
-			for (int v=0;v<63;v++)
+			for (int val : AC[Main.Y])
 			{
-				ACs[Main.Y][b*63+v]=AC[Main.Y][v];
-				ACs[Main.U][b*63+v]=AC[Main.U][v];
-				ACs[Main.V][b*63+v]=AC[Main.V][v];
-//				System.out.println("place:"+(b*64+v)+" "+ACs[Main.Y][b*8+v]);
+				if (val==0)
+					Y0++;
+				else
+				{
+					int[] tab = {Y0,val};
+					Y.add(tab);
+					Y0=0;
+				}
 			}
-		}
-		
-//		for (int val:ACs[Main.Y])
-//		{
-//			System.out.println(ACs[Main.Y][150]);
-//		}
-		
-		List<int[]> Y= new LinkedList<int[]>();
-		int zeros=0;
-//		int k=0;
-		for (int val : ACs[Main.Y])
-		{
-			if (val==0)
-				zeros++;
-			else
+			{int[] tab = {0,0};
+			Y.add(tab);}
+			
+			for (int val : AC[Main.U])
 			{
-				int[] tab = {zeros,val};
-				Y.add(tab);
-//				ACsToWrite[Main.Y][k][0]=zeros;
-//				ACsToWrite[Main.Y][k][1]=val;
-				zeros=0;
-//				k++;
+				if (val==0)
+					U0++;
+				else
+				{
+					int[] tab = {U0,val};
+					U.add(tab);
+					U0=0;
+				}
 			}
-		}
-		{int[] tab = {0,0};
-		Y.add(tab);}
-//		ACsToWrite[Main.Y][k][0]=0;
-//		ACsToWrite[Main.Y][k][1]=0;
+			{int[] tab = {0,0};
+			U.add(tab);}
 
-		List<int[]> U= new LinkedList<int[]>();
-		zeros=0;
-//		k=0;
-		for (int val : ACs[Main.U])
-		{
-			if (val==0)
-				zeros++;
-			else
+			for (int val : AC[Main.V])
 			{
-				int[] tab = {zeros,val};
-				U.add(tab);
-//				ACsToWrite[Main.U][k][0]=zeros;
-//				ACsToWrite[Main.U][k][1]=val;
-				zeros=0;
-//				k++;
+				if (val==0)
+					V0++;
+				else
+				{
+					int[] tab = {V0,val};
+					V.add(tab);
+					V0=0;
+				}
 			}
+			{int[] tab = {0,0};
+			V.add(tab);}
+				
+//			for (int v=0;v<63;v++)
+//			{
+//				ACs[Main.Y][b*63+v]=AC[Main.Y][v];
+//				ACs[Main.U][b*63+v]=AC[Main.U][v];
+//				ACs[Main.V][b*63+v]=AC[Main.V][v];
+//			}
 		}
-		{int[] tab = {0,0};
-		U.add(tab);}
-//		ACsToWrite[Main.U][k][0]=0;
-//		ACsToWrite[Main.U][k][1]=0;
-
-		List<int[]> V= new LinkedList<int[]>();
-		zeros=0;
-//		k=0;
-		for (int val : ACs[Main.V])
-		{
-			if (val==0)
-				zeros++;
-			else
-			{
-				int[] tab = {zeros,val};
-				V.add(tab);
-//				ACsToWrite[Main.V][k][0]=zeros;
-//				ACsToWrite[Main.V][k][1]=val;
-				zeros=0;
-//				k++;
-			}
-		}
-		{int[] tab = {0,0};
-		V.add(tab);}
-//		ACsToWrite[Main.V][k][0]=0;
-//		ACsToWrite[Main.V][k][1]=0;
 
 		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][Y.size()][2];
 		for (int i=0;i<Y.size();i++)
-		{
 			ACsToWrite[0][i]=Y.get(i);
-		}
+		
 		for (int i=0;i<U.size();i++)
-		{
 			ACsToWrite[1][i]=U.get(i);
-		}
+		
 		for (int i=0;i<V.size();i++)
-		{
 			ACsToWrite[2][i]=V.get(i);
-		}
+		
+		System.out.println("Y"+Y.size()+" U"+U.size()+" V"+V.size());
+//		for (int i=0;i<U.size();i++)
+//			System.out.println(U.get(i)[0]+" "+U.get(i)[1]);
 		return ACsToWrite;
 	}
 	
@@ -153,7 +127,7 @@ public class ZigZag {
 		return DC;
 	}
 	
-	public static List<int[][][]> CreateBlocs(int[][] DCs, int[][][] ACs)
+	public static List<int[][][]> CreateBlocs(int[][] DCs, int[][][] ACs, int width, int height)
 	{
 		List<int[][][]> blocs = new LinkedList<int[][][]>();
 		
@@ -178,17 +152,23 @@ public class ZigZag {
 		List<Integer> Y= new LinkedList<Integer>();
 		List<Integer> U= new LinkedList<Integer>();
 		List<Integer> V= new LinkedList<Integer>();
-		//int[][] listACs = new int[Main.COLOR_SPACE_SIZE][ACs[0].length];
+
 		for (int i=0;i<ACs[0].length;i++)
 		{
+			if (ACs[0][i][1]==0)
+				break;
+			
 			for(int j=0;j<ACs[0][i][0];j++)
 				Y.add(0);
 			
-			Y.add(ACs[0][i][1]);
+			Y.add(ACs[0][i][1]);	
 		}
 		
 		for (int i=0;i<ACs[1].length;i++)
 		{
+			if (ACs[1][i][1]==0)
+				break;
+			
 			for(int j=0;j<ACs[1][i][0];j++)
 				U.add(0);
 			
@@ -197,36 +177,57 @@ public class ZigZag {
 		
 		for (int i=0;i<ACs[2].length;i++)
 		{
+			if (ACs[2][i][1]==0)
+				break;
+			
 			for(int j=0;j<ACs[2][i][0];j++)
 				V.add(0);
 			
 			V.add(ACs[2][i][1]);
 		}
 		
-		int[][] listACs = new int[Main.COLOR_SPACE_SIZE][Y.size()];
+		int[][] listACs = new int[Main.COLOR_SPACE_SIZE][(width*height*63/64)];
 		int[][] listACs2 = new int[Main.COLOR_SPACE_SIZE][63];
 		
-		for (int i=0;i<Y.size();i++)
+//		int size=0;
+//		if (Y.size()>size) size=Y.size();
+//		if (U.size()>size) size=U.size();
+//		if (V.size()>size) size=V.size();
+		
+		for (int i=0;i<(width*height*63/64);i++)
 		{
-			listACs[0][i]=Y.get(i);
-			listACs[1][i]=U.get(i);
-			listACs[2][i]=V.get(i);
+			if (i>=Y.size())
+				listACs[0][i]=0;
+			else
+				listACs[0][i]=Y.get(i);
+			
+			if (i>=U.size())
+				listACs[1][i]=0;
+			else
+				listACs[1][i]=U.get(i);
+			
+			if (i>=V.size())
+				listACs[2][i]=0;
+			else
+				listACs[2][i]=V.get(i);
+			
+//			System.out.println(listACs[0][i]+"  "+listACs[1][i]+"  "+listACs[2][i]);
 		}
 
-		for (int[][][] bloc : blocs)
+		for (int b=0;b<blocs.size();b++)
 		{
 			for (int i=0;i<63;i++)
 			{
-				listACs2[0][findZigZagOrder(i+1)-1]=listACs[0][i+blocs.indexOf(bloc)*63];
-				listACs2[1][findZigZagOrder(i+1)-1]=listACs[1][i+blocs.indexOf(bloc)*63];
-				listACs2[2][findZigZagOrder(i+1)-1]=listACs[2][i+blocs.indexOf(bloc)*63];
+				listACs2[0][findZigZagOrder(i+1)-1]=listACs[0][i+b*63];
+				listACs2[1][findZigZagOrder(i+1)-1]=listACs[1][i+b*63];
+				listACs2[2][findZigZagOrder(i+1)-1]=listACs[2][i+b*63];
 			}
 			
 			for (int i=1;i<64;i++)
 			{
-				bloc[0][i/8][i%8] = listACs2[0][i-1];
-				bloc[1][i/8][i%8] = listACs2[1][i-1];
-				bloc[2][i/8][i%8] = listACs2[2][i-1];
+				blocs.get(b)[0][i/8][i%8] = listACs2[0][i-1];
+				blocs.get(b)[1][i/8][i%8] = listACs2[1][i-1];
+				blocs.get(b)[2][i/8][i%8] = listACs2[2][i-1];
 			}
 		}
 		
