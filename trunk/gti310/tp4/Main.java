@@ -56,6 +56,9 @@ public class Main {
 				blocs = Quantification.Do(DCTManager.DCT(BlocManager.split(ConvertColor.convertRGBToYUV(PPMReaderWriter.readPPMFile(args[0])))),Integer.parseInt(args[1]));
 				int[][][] AC = ZigZag.GetAC(blocs);
 				int[][] DC = ZigZag.GetDC(blocs);
+
+//				for (int i=0;i<DC[0].length;i++)
+//					System.out.println(DC[0][i]+" "+DC[1][i]+" "+DC[2][i]);
 				
 				//DC
 				for (int i=0;i<DC[0].length;i++)
@@ -71,12 +74,16 @@ public class Main {
 				for (int i=0;i<AC[0].length;i++)
 					Entropy.writeAC(AC[0][i][0], AC[0][i][1]);
 	
-				for (int i=0;i<AC[1].length;i++)
+				for (int i=0;i<AC[1].length;i++)					
 					Entropy.writeAC(AC[1][i][0], AC[1][i][1]);
-	
+
 				for (int i=0;i<AC[2].length;i++)
+				{
+//					if (!(AC[2][i][0]==0 && AC[2][i][1]==0))
+//						System.out.println("zeroes :"+AC[2][i][0]+" value :"+AC[2][i][1]);
 					Entropy.writeAC(AC[2][i][0], AC[2][i][1]);
-				
+				}
+
 				SZLReaderWriter.writeSZLFile("output.szl", PPMReaderWriter.readPPMFile(args[0])[0].length, PPMReaderWriter.readPPMFile(args[0])[0][0].length, Integer.parseInt(args[1]));
 			}
 		}
@@ -129,7 +136,7 @@ public class Main {
 					k++;
 				}
 			}
-			System.out.println("Y "+k+" "+eob);
+//			System.out.println("Y "+k+" "+eob);
 			
 			i=0;
 			ibloc=0;
@@ -137,11 +144,9 @@ public class Main {
 			eob=0;
 			while (true)
 			{
-//				System.out.println("U:i "+i+"   ib "+ibloc);
 				if (i>=(width*height*63/64))
 					break;
 				int[] couple = Entropy.readAC();
-//				System.out.println(" 0:"+couple[0]+"    1:"+couple[1]);
 				if (couple[0]==0 && couple[1]==0)
 				{
 					i+=63-ibloc;
@@ -158,7 +163,7 @@ public class Main {
 					k++;
 				}
 			}
-			System.out.println("U "+k+" "+eob);
+//			System.out.println("U "+k+" "+eob);
 			
 			i=0;
 			ibloc=0;
@@ -187,13 +192,22 @@ public class Main {
 					k++;
 				}
 			}
-			System.out.println("V "+k+" "+eob);
+//			System.out.println("V "+k+" "+eob);
+			
+//			for (int[] tab:ACs[0])
+//			{
+//				if (!(tab[0]==0 && tab[1]==0))
+//				System.out.println("zeroes :"+tab[0]+" value :"+tab[1]);
+//			}
 			
 			PPMReaderWriter.writePPMFile("output2.ppm", 
-					ConvertColor.convertYUVToRGB(
-					BlocManager.merge(DCTManager.iDCT(
-					Quantification.UnDo(
-					ZigZag.CreateBlocs(DCs, ACs, width, height), fq)), width, height)));				
+										ConvertColor.convertYUVToRGB(
+																	BlocManager.merge(DCTManager.iDCT(
+																					Quantification.UnDo(
+																										ZigZag.CreateBlocs(DCs, ACs, width, height),
+																										fq)),
+																					width,
+																					height)));				
 		}
 	}
 }
