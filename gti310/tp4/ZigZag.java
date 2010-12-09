@@ -98,7 +98,12 @@ public class ZigZag {
 		for (int i=0;i<V.size();i++)
 			ACsToWrite[2][i]=V.get(i);
 		
-		System.out.println("Y"+Y.size()+" U"+U.size()+" V"+V.size());
+//		for (int[] tab:V)
+//		{
+//			if (!(tab[0]==0 && tab[1]==0))
+//			System.out.println("zeroes :"+tab[0]+" value :"+tab[1]);
+//		}
+//		System.out.println("Y"+Y.size()+" U"+U.size()+" V"+V.size());
 //		for (int i=0;i<U.size();i++)
 //			System.out.println(U.get(i)[0]+" "+U.get(i)[1]);
 		return ACsToWrite;
@@ -117,12 +122,17 @@ public class ZigZag {
 			k++;
 		}
 		
-		for (int i=1;i<DC[Main.Y].length;i++)
+		for (int i=(DC[Main.Y].length-1);i>=1;i--)
 		{
 			DC[Main.Y][i]=DC[Main.Y][i]-DC[Main.Y][i-1];
 			DC[Main.U][i]=DC[Main.U][i]-DC[Main.U][i-1];
 			DC[Main.V][i]=DC[Main.V][i]-DC[Main.V][i-1];
 		}
+		
+//		for (int val:DC[2])
+//		{
+//			System.out.println("DC:"+val);
+//		}
 		
 		return DC;
 	}
@@ -229,6 +239,8 @@ public class ZigZag {
 				blocs.get(b)[1][i/8][i%8] = listACs2[1][i-1];
 				blocs.get(b)[2][i/8][i%8] = listACs2[2][i-1];
 			}
+			
+//			System.out.println(blocs.get(b)[0][0][0]+" "+blocs.get(b)[1][0][0]+" "+blocs.get(b)[2][0][0]);
 		}
 		
 		return blocs;

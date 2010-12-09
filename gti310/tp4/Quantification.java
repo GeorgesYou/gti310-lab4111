@@ -9,6 +9,11 @@ public class Quantification {
 	
 	public static List<int[][][]> Do(List<int[][][]> blocs, int fq)
 	{
+//		for (int b=0;b<blocs.size();b++)
+//		{
+//			System.out.println(blocs.get(b)[0][0][0]+" "+blocs.get(b)[1][0][0]+" "+blocs.get(b)[2][0][0]);
+//		}
+		
 		if (fq==100)
 			return blocs;
 		
@@ -31,6 +36,11 @@ public class Quantification {
 			blocsQuant.add(blocQuant);
 		}
 		
+//		for (int b=0;b<blocsQuant.size();b++)
+//		{
+//			System.out.println(blocsQuant.get(b)[0][0][0]+" "+blocsQuant.get(b)[1][0][0]+" "+blocsQuant.get(b)[2][0][0]);
+//		}
+		
 		return blocsQuant;
 	}
 	
@@ -38,6 +48,11 @@ public class Quantification {
 	{
 		if (fq==100)
 			return blocs;
+		
+//		for (int b=0;b<blocs.size();b++)
+//		{
+//			System.out.println(blocs.get(b)[0][0][0]+" "+blocs.get(b)[1][0][0]+" "+blocs.get(b)[2][0][0]);
+//		}
 		
 		List<int[][][]> blocsUnQuant = new LinkedList<int[][][]>();
 		
@@ -57,6 +72,11 @@ public class Quantification {
 			
 			blocsUnQuant.add(blocUnQuant);
 		}
+		
+//		for (int b=0;b<blocsUnQuant.size();b++)
+//		{
+//			System.out.println(blocsUnQuant.get(b)[0][0][0]+" "+blocsUnQuant.get(b)[1][0][0]+" "+blocsUnQuant.get(b)[2][0][0]);
+//		}
 		
 		return blocsUnQuant;
 	}
