@@ -4,9 +4,17 @@ import java.math.*;
 
 public class ConvertColor {
 
-	// Matrice de conversion, source: https://cours.etsmtl.ca/gti310/private/Presentations/GTI310-3-ConceptsFondamentauxVideo-v14.pdf
-	//private double matrice[][] = {{0.299,0.587,0.114},{-0.147,-0.289,0.436},{0.615, -0.515, -0.100}};
-	
+	/**
+	 * C1+C2(N-1)+C3(N-1)(N-1)+(C4+C5+C6+C7+C8+C9)(N-1)N+C10
+	 * C1+C10+C3(N^2)+K1(N^2)
+	 * K2+N^2+N^2
+	 * N^2+N^2
+	 * N^2
+	 *  
+	 * O(N^2)
+	 * 
+	 * @param tableau en trois dimension d'une image en RGB
+	 */	
 	public static int[][][] convertRGBToYUV(int[][][] image)
 	{
 		
@@ -30,6 +38,17 @@ public class ConvertColor {
 		return imageYUV;
 	}
 	
+	/**
+	 * C1+C2(N-1)+C3(N-1)(N-1)+(C4+C5+C6+C7+C8+C9)(N-1)N+C10
+	 * C1+C10+C3(N^2)+K1(N^2)
+	 * K2+N^2+N^2
+	 * N^2+N^2
+	 * N^2
+	 *  
+	 * O(N^2)
+	 * 
+	 * @param tableau en trois dimension d'une image en YUV
+	 */		
 	public static int[][][] convertYUVToRGB(int[][][] image)
 	{
 		int[][][] imageRGB = new int[Main.COLOR_SPACE_SIZE][image[0].length][image[0][0].length];
