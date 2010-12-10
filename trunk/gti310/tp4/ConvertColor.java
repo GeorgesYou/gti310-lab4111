@@ -1,3 +1,19 @@
+/******************************************************
+ Laboratoire #4 : Compression quasi-JPEG
+ 
+ Cours :             GTI310
+ Session :           Automne 2010
+ Groupe :            01
+ Projet :            Laboratoire #4
+ Étudiant(e)(s) :    Gabriel Desmarais
+ 					 Marie-Ève Benoit
+ Code(s) perm. :     DESG24078908
+ 					 BENM22568707
+ Chargée de lab. :   Jean-François Franche 
+ Nom du fichier :    Data.java
+ Date crée :         2010-12-1
+ Date dern. modif.   2010-12-1
+ *******************************************************/
 package gti310.tp4;
 import java.util.*;
 import java.math.*;
@@ -5,11 +21,6 @@ import java.math.*;
 public class ConvertColor {
 
 	/**
-	 * C1+C2(N-1)+C3(N-1)(N-1)+(C4+C5+C6+C7+C8+C9)(N-1)N+C10
-	 * C1+C10+C3(N^2)+K1(N^2)
-	 * K2+N^2+N^2
-	 * N^2+N^2
-	 * N^2
 	 *  
 	 * O(N^2)
 	 * 
@@ -39,11 +50,6 @@ public class ConvertColor {
 	}
 	
 	/**
-	 * C1+C2(N-1)+C3(N-1)(N-1)+(C4+C5+C6+C7+C8+C9)(N-1)N+C10
-	 * C1+C10+C3(N^2)+K1(N^2)
-	 * K2+N^2+N^2
-	 * N^2+N^2
-	 * N^2
 	 *  
 	 * O(N^2)
 	 * 

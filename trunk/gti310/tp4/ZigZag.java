@@ -1,3 +1,19 @@
+/******************************************************
+ Laboratoire #4 : Compression quasi-JPEG
+ 
+ Cours :             GTI310
+ Session :           Automne 2010
+ Groupe :            01
+ Projet :            Laboratoire #4
+ Étudiant(e)(s) :    Gabriel Desmarais
+ 					 Marie-Ève Benoit
+ Code(s) perm. :     DESG24078908
+ 					 BENM22568707
+ Chargée de lab. :   Jean-François Franche 
+ Nom du fichier :    Data.java
+ Date crée :         2010-12-1
+ Date dern. modif.   2010-12-1
+ *******************************************************/
 package gti310.tp4;
 
 import java.util.LinkedList;
@@ -5,6 +21,12 @@ import java.util.List;
 
 public class ZigZag {	
 	
+	/**
+	 *  
+	 * O(N^3)
+	 * 
+	 * @param Liste de blocs
+	 */	
 	public static int[][][] GetAC(List<int[][][]> blocs)
 	{
 		List<int[]> Y= new LinkedList<int[]>();
@@ -93,6 +115,12 @@ public class ZigZag {
 		return ACsToWrite;
 	}
 	
+	/**
+	 *  
+	 * O(N)
+	 * 
+	 * @param Liste de blocs
+	 */	
 	public static int[][] GetDC(List<int[][][]> blocs)
 	{
 		int[][] DC = new int[Main.COLOR_SPACE_SIZE][blocs.size()];
@@ -116,6 +144,18 @@ public class ZigZag {
 		return DC;
 	}
 	
+	
+	/**
+	 *  
+	 * O(N^2)
+	 * 
+	 * @param Liste de DCs
+	 * @param Liste de Yc
+	 * @param Liste de Uc
+	 * @param Liste de Vc
+	 * @param La largeur
+	 * @param La hauteur
+	 */	
 	public static List<int[][][]> CreateBlocs(int[][] DCs, List<int[]> Yc, List<int[]> Uc, List<int[]> Vc, int width, int height)
 	{
 		List<int[][][]> blocs = new LinkedList<int[][][]>();
@@ -258,6 +298,13 @@ public class ZigZag {
 		return blocs;
 	}
 	
+	
+	/**
+	 *  
+	 * O(N)
+	 * 
+	 * @param Indexe
+	 */
 	private static int findZigZagOrder(int i)
 	{
 		int[] ZigZagOrder = { 

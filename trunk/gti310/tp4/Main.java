@@ -1,4 +1,20 @@
-package gti310.tp4;
+
+/******************************************************
+ Laboratoire #4 : Compression quasi-JPEG
+ 
+ Cours :             GTI310
+ Session :           Automne 2010
+ Groupe :            01
+ Projet :            Laboratoire #4
+ Étudiant(e)(s) :    Gabriel Desmarais
+ 					 Marie-Ève Benoit
+ Code(s) perm. :     DESG24078908
+ 					 BENM22568707
+ Chargée de lab. :   Jean-François Franche 
+ Nom du fichier :    Data.java
+ Date crée :         2010-12-1
+ Date dern. modif.   2010-12-1
+ *******************************************************/package gti310.tp4;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +61,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		args = new String[]{"lena.ppm","45"};
+		
+		//args = new String[]{"peppers.ppm","10"};
 		args = new String[]{"output.szl"};
 
 		if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
