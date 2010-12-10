@@ -7,7 +7,6 @@ public class ZigZag {
 	
 	public static int[][][] GetAC(List<int[][][]> blocs)
 	{
-//		int[][] ACs = new int[Main.COLOR_SPACE_SIZE][blocs.size()*63];
 		List<int[]> Y= new LinkedList<int[]>();
 		List<int[]> U= new LinkedList<int[]>();
 		List<int[]> V= new LinkedList<int[]>();
@@ -79,13 +78,6 @@ public class ZigZag {
 			}
 			{int[] tab = {0,0};
 			V.add(tab);}
-				
-//			for (int v=0;v<63;v++)
-//			{
-//				ACs[Main.Y][b*63+v]=AC[Main.Y][v];
-//				ACs[Main.U][b*63+v]=AC[Main.U][v];
-//				ACs[Main.V][b*63+v]=AC[Main.V][v];
-//			}
 		}
 
 		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][Y.size()][2];
@@ -97,15 +89,7 @@ public class ZigZag {
 		
 		for (int i=0;i<V.size();i++)
 			ACsToWrite[2][i]=V.get(i);
-		
-//		for (int[] tab:V)
-//		{
-//			if (!(tab[0]==0 && tab[1]==0))
-//			System.out.println("zeroes :"+tab[0]+" value :"+tab[1]);
-//		}
-//		System.out.println("Y"+Y.size()+" U"+U.size()+" V"+V.size());
-//		for (int i=0;i<U.size();i++)
-//			System.out.println(U.get(i)[0]+" "+U.get(i)[1]);
+
 		return ACsToWrite;
 	}
 	
@@ -128,12 +112,7 @@ public class ZigZag {
 			DC[Main.U][i]=DC[Main.U][i]-DC[Main.U][i-1];
 			DC[Main.V][i]=DC[Main.V][i]-DC[Main.V][i-1];
 		}
-		
-//		for (int val:DC[2])
-//		{
-//			System.out.println("DC:"+val);
-//		}
-		
+
 		return DC;
 	}
 	
@@ -199,11 +178,6 @@ public class ZigZag {
 		int[][] listACs = new int[Main.COLOR_SPACE_SIZE][(width*height*63/64)];
 		int[][] listACs2 = new int[Main.COLOR_SPACE_SIZE][63];
 		
-//		int size=0;
-//		if (Y.size()>size) size=Y.size();
-//		if (U.size()>size) size=U.size();
-//		if (V.size()>size) size=V.size();
-		
 		for (int i=0;i<(width*height*63/64);i++)
 		{
 			if (i>=Y.size())
@@ -221,7 +195,6 @@ public class ZigZag {
 			else
 				listACs[2][i]=V.get(i);
 			
-//			System.out.println(listACs[0][i]+"  "+listACs[1][i]+"  "+listACs[2][i]);
 		}
 
 		for (int b=0;b<blocs.size();b++)
@@ -240,7 +213,7 @@ public class ZigZag {
 				blocs.get(b)[2][i/8][i%8] = listACs2[2][i-1];
 			}
 			
-//			System.out.println(blocs.get(b)[0][0][0]+" "+blocs.get(b)[1][0][0]+" "+blocs.get(b)[2][0][0]);
+
 		}
 		
 		return blocs;

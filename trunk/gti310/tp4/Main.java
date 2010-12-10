@@ -45,7 +45,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		args = new String[]{"lena.ppm","20"};
+	//	args = new String[]{"lena.ppm","89"};
 		args = new String[]{"output.szl"};
 
 		if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
