@@ -83,7 +83,7 @@ public class ZigZag {
 		int[][][] ACsToWrite = new int[Main.COLOR_SPACE_SIZE][Y.size()][2];
 		for (int i=0;i<Y.size();i++)
 			ACsToWrite[0][i]=Y.get(i);
-		
+
 		for (int i=0;i<U.size();i++)
 			ACsToWrite[1][i]=U.get(i);
 		
@@ -116,7 +116,7 @@ public class ZigZag {
 		return DC;
 	}
 	
-	public static List<int[][][]> CreateBlocs(int[][] DCs, int[][][] ACs, int width, int height)
+	public static List<int[][][]> CreateBlocs(int[][] DCs, List<int[]> Yc, List<int[]> Uc, List<int[]> Vc, int width, int height)
 	{
 		List<int[][][]> blocs = new LinkedList<int[][][]>();
 		
@@ -142,37 +142,79 @@ public class ZigZag {
 		List<Integer> U= new LinkedList<Integer>();
 		List<Integer> V= new LinkedList<Integer>();
 
-		for (int i=0;i<ACs[0].length;i++)
+		int ibloc=0;
+		for (int i=0;i<Yc.size();i++)
 		{
-			if (ACs[0][i][1]==0)
-				break;
-			
-			for(int j=0;j<ACs[0][i][0];j++)
-				Y.add(0);
-			
-			Y.add(ACs[0][i][1]);	
+			if (Yc.get(i)[1]==0)
+			{
+				while (ibloc<63)
+				{
+					Y.add(0);
+					ibloc++;
+				}
+				ibloc=0;
+			}
+			else
+			{
+				for(int j=0;j<Yc.get(i)[0];j++)
+				{
+					Y.add(0);
+					ibloc++;
+				}
+				
+				Y.add(Yc.get(i)[1]);
+				ibloc++;
+			}
 		}
 		
-		for (int i=0;i<ACs[1].length;i++)
+		ibloc=0;
+		for (int i=0;i<Uc.size();i++)
 		{
-			if (ACs[1][i][1]==0)
-				break;
-			
-			for(int j=0;j<ACs[1][i][0];j++)
-				U.add(0);
-			
-			U.add(ACs[1][i][1]);
+			if (Uc.get(i)[1]==0)
+			{
+				while (ibloc<63)
+				{
+					U.add(0);
+					ibloc++;
+				}
+				ibloc=0;
+			}
+			else
+			{
+				for(int j=0;j<Uc.get(i)[0];j++)
+				{
+					U.add(0);
+					ibloc++;
+				}
+				
+				U.add(Uc.get(i)[1]);
+				ibloc++;
+			}
 		}
-		
-		for (int i=0;i<ACs[2].length;i++)
+
+		ibloc=0;
+		for (int i=0;i<Vc.size();i++)
 		{
-			if (ACs[2][i][1]==0)
-				break;
-			
-			for(int j=0;j<ACs[2][i][0];j++)
-				V.add(0);
-			
-			V.add(ACs[2][i][1]);
+			if (Vc.get(i)[1]==0)
+			{
+				while (ibloc<63)
+				{
+					V.add(0);
+					ibloc++;
+				}
+				ibloc=0;
+			}
+			else
+			{
+				for(int j=0;j<Vc.get(i)[0];j++)
+				{
+					V.add(0);
+					ibloc++;
+				}
+				
+				V.add(Vc.get(i)[1]);
+				ibloc++;
+			}
 		}
 		
 		int[][] listACs = new int[Main.COLOR_SPACE_SIZE][(width*height*63/64)];
@@ -194,7 +236,6 @@ public class ZigZag {
 				listACs[2][i]=0;
 			else
 				listACs[2][i]=V.get(i);
-			
 		}
 
 		for (int b=0;b<blocs.size();b++)
@@ -212,8 +253,6 @@ public class ZigZag {
 				blocs.get(b)[1][i/8][i%8] = listACs2[1][i-1];
 				blocs.get(b)[2][i/8][i%8] = listACs2[2][i-1];
 			}
-			
-
 		}
 		
 		return blocs;

@@ -45,7 +45,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	//	args = new String[]{"lena.ppm","89"};
+//		args = new String[]{"lena.ppm","80"};
 		args = new String[]{"output.szl"};
 
 		if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
@@ -56,9 +56,6 @@ public class Main {
 				blocs = Quantification.Do(DCTManager.DCT(BlocManager.split(ConvertColor.convertRGBToYUV(PPMReaderWriter.readPPMFile(args[0])))),Integer.parseInt(args[1]));
 				int[][][] AC = ZigZag.GetAC(blocs);
 				int[][] DC = ZigZag.GetDC(blocs);
-
-//				for (int i=0;i<DC[0].length;i++)
-//					System.out.println(DC[0][i]+" "+DC[1][i]+" "+DC[2][i]);
 				
 				//DC
 				for (int i=0;i<DC[0].length;i++)
@@ -97,8 +94,11 @@ public class Main {
 			int fq = header[3];
 				if (space!=3) System.exit(0);
 				
-			int[][][] ACs = new int[space][width*height*63/64][2];
-			int[][] DCs = new int[space][(width*height/64)];
+//			int[][][] ACs = new int[space][width*height*63/64][2];
+			List<int[]> Y= new LinkedList<int[]>();
+			List<int[]> U= new LinkedList<int[]>();
+			List<int[]> V= new LinkedList<int[]>();
+			int[][] DCs = new int[space][width*height/64];
 			
 			//DC
 			for (int i=0;i<(width*height/64);i++)
@@ -125,6 +125,8 @@ public class Main {
 					i+=63-ibloc;
 					ibloc=0;
 					eob++;
+					{int[] tab = {0,0};
+					Y.add(tab);}
 				}
 				else
 				{
@@ -132,11 +134,12 @@ public class Main {
 					ibloc+=couple[0];
 					i+=1;
 					ibloc+=1;
-					ACs[0][k] = couple;
+//					ACs[0][k] = couple;
+					Y.add(couple);
 					k++;
 				}
 			}
-//			System.out.println("Y "+k+" "+eob);
+			System.out.println("Y "+k+" "+eob);
 			
 			i=0;
 			ibloc=0;
@@ -152,6 +155,8 @@ public class Main {
 					i+=63-ibloc;
 					ibloc=0;
 					eob++;
+					{int[] tab = {0,0};
+					U.add(tab);}
 				}
 				else
 				{
@@ -159,7 +164,8 @@ public class Main {
 					ibloc+=couple[0];
 					i+=1;
 					ibloc+=1;
-					ACs[1][k] = couple;
+//					ACs[1][k] = couple;
+					U.add(couple);
 					k++;
 				}
 			}
@@ -181,6 +187,8 @@ public class Main {
 					i+=63-ibloc;
 					ibloc=0;
 					eob++;
+					{int[] tab = {0,0};
+					V.add(tab);}
 				}
 				else
 				{
@@ -188,7 +196,8 @@ public class Main {
 					ibloc+=couple[0];
 					i+=1;
 					ibloc+=1;
-					ACs[2][k] = couple;
+//					ACs[2][k] = couple;
+					V.add(couple);
 					k++;
 				}
 			}
@@ -204,7 +213,7 @@ public class Main {
 										ConvertColor.convertYUVToRGB(
 																	BlocManager.merge(DCTManager.iDCT(
 																					Quantification.UnDo(
-																										ZigZag.CreateBlocs(DCs, ACs, width, height),
+																										ZigZag.CreateBlocs(DCs, Y,U,V, width, height),
 																										fq)),
 																					width,
 																					height)));				
