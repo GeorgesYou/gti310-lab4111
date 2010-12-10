@@ -45,7 +45,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		args = new String[]{"lena.ppm","80"};
+//		args = new String[]{"lena.ppm","45"};
 		args = new String[]{"output.szl"};
 
 		if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
@@ -75,11 +75,7 @@ public class Main {
 					Entropy.writeAC(AC[1][i][0], AC[1][i][1]);
 
 				for (int i=0;i<AC[2].length;i++)
-				{
-//					if (!(AC[2][i][0]==0 && AC[2][i][1]==0))
-//						System.out.println("zeroes :"+AC[2][i][0]+" value :"+AC[2][i][1]);
 					Entropy.writeAC(AC[2][i][0], AC[2][i][1]);
-				}
 
 				SZLReaderWriter.writeSZLFile("output.szl", PPMReaderWriter.readPPMFile(args[0])[0].length, PPMReaderWriter.readPPMFile(args[0])[0][0].length, Integer.parseInt(args[1]));
 			}
@@ -94,7 +90,6 @@ public class Main {
 			int fq = header[3];
 				if (space!=3) System.exit(0);
 				
-//			int[][][] ACs = new int[space][width*height*63/64][2];
 			List<int[]> Y= new LinkedList<int[]>();
 			List<int[]> U= new LinkedList<int[]>();
 			List<int[]> V= new LinkedList<int[]>();
@@ -113,7 +108,6 @@ public class Main {
 			//AC
 			int i=0;
 			int ibloc=0;
-			int k=0;
 			int eob=0;
 			while (true)
 			{
@@ -134,16 +128,12 @@ public class Main {
 					ibloc+=couple[0];
 					i+=1;
 					ibloc+=1;
-//					ACs[0][k] = couple;
 					Y.add(couple);
-					k++;
 				}
 			}
-			System.out.println("Y "+k+" "+eob);
 			
 			i=0;
 			ibloc=0;
-			k=0;
 			eob=0;
 			while (true)
 			{
@@ -164,24 +154,18 @@ public class Main {
 					ibloc+=couple[0];
 					i+=1;
 					ibloc+=1;
-//					ACs[1][k] = couple;
 					U.add(couple);
-					k++;
 				}
 			}
-//			System.out.println("U "+k+" "+eob);
 			
 			i=0;
 			ibloc=0;
-			k=0;
 			eob=0;
 			while (true)
 			{
-//				System.out.println("V:i "+i+"   ib "+ibloc);
 				if (i>=(width*height*63/64))
 					break;
 				int[] couple = Entropy.readAC();
-//				System.out.println(" 0:"+couple[0]+"    1:"+couple[1]);
 				if (couple[0]==0 && couple[1]==0)
 				{
 					i+=63-ibloc;
@@ -196,18 +180,9 @@ public class Main {
 					ibloc+=couple[0];
 					i+=1;
 					ibloc+=1;
-//					ACs[2][k] = couple;
 					V.add(couple);
-					k++;
 				}
 			}
-//			System.out.println("V "+k+" "+eob);
-			
-//			for (int[] tab:ACs[0])
-//			{
-//				if (!(tab[0]==0 && tab[1]==0))
-//				System.out.println("zeroes :"+tab[0]+" value :"+tab[1]);
-//			}
 			
 			PPMReaderWriter.writePPMFile("output2.ppm", 
 										ConvertColor.convertYUVToRGB(
