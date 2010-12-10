@@ -1,3 +1,20 @@
+
+/******************************************************
+ Laboratoire #4 : Compression quasi-JPEG
+ 
+ Cours :             GTI310
+ Session :           Automne 2010
+ Groupe :            01
+ Projet :            Laboratoire #4
+ Étudiant(e)(s) :    Gabriel Desmarais
+ 					 Marie-Ève Benoit
+ Code(s) perm. :     DESG24078908
+ 					 BENM22568707
+ Chargée de lab. :   Jean-François Franche 
+ Nom du fichier :    Data.java
+ Date crée :         2010-12-1
+ Date dern. modif.   2010-12-1
+ *******************************************************/
 package gti310.tp4;
 
 import java.util.LinkedList;
@@ -6,11 +23,6 @@ import java.util.List;
 public class BlocManager {
 
 	/**
-	 * C1+C2+C3(N-1)+C4(N-1)(N-1)+C5(N-1)N+C6(N-1)(N-1)(N-1)+C7(N-1)(N-1)(N-1)(N-1)+(C8+C9+C10)(N-1)(N-1)(N-1)N+C11(N-1)(N-1)N+C12
-	 * C1+C2+C12+N+C4*N^2+C5*N^2+C6*N^3+C7*N^4+K1*N^4+C11*N^3
-	 * K2+N+N^2+N^2+N^3+N^4+N^4+N^3
-	 * N^4
-	 *  
 	 * O(N^4)
 	 * 
 	 * @param tableau en trois dimension d'une image en YUV
@@ -39,11 +51,6 @@ public class BlocManager {
 	}
 	
 	/**
-	 * C1+C2+C3(N-1)+C4(N-1)(N-1)+C5(N-1)(N-1)(N-1)+(C6+C7+C8)(N-1)(N-1)N+C7
-	 * K1+N+N^2+N^3+K2*N^3+C7
-	 * N+N^2+N^3
-	 * N^3
-	 *  
 	 * O(N^3)
 	 * 
 	 * @param tableau en trois dimension d'une image en YUV

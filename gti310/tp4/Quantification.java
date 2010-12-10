@@ -1,3 +1,19 @@
+/******************************************************
+ Laboratoire #4 : Compression quasi-JPEG
+ 
+ Cours :             GTI310
+ Session :           Automne 2010
+ Groupe :            01
+ Projet :            Laboratoire #4
+ Étudiant(e)(s) :    Gabriel Desmarais
+ 					 Marie-Ève Benoit
+ Code(s) perm. :     DESG24078908
+ 					 BENM22568707
+ Chargée de lab. :   Jean-François Franche 
+ Nom du fichier :    Data.java
+ Date crée :         2010-12-1
+ Date dern. modif.   2010-12-1
+ *******************************************************/
 package gti310.tp4;
 
 import java.util.LinkedList;
@@ -7,13 +23,20 @@ public class Quantification {
 	private static int[][] Y = new int[8][8];
 	private static int[][] UV = new int[8][8];
 	
+	
+	/**n
+	 * C1+C2+C3+C4+C5+C6(N-1)+C7N+C8(N-1)N+C9(N-1)N*N+C10N*N*N+C11N*N*N+C12N*N*N
+	 * C13N+C14
+	 *  
+	 *  K+N+N+N^2+N^3+N^3+N^3+N^3+N+C14
+	 *  
+	 * O(N^3)
+	 * 
+	 * @param Liste de blocs
+	 * @param degrée de qualité
+	 */	
 	public static List<int[][][]> Do(List<int[][][]> blocs, int fq)
-	{
-//		for (int b=0;b<blocs.size();b++)
-//		{
-//			System.out.println(blocs.get(b)[0][0][0]+" "+blocs.get(b)[1][0][0]+" "+blocs.get(b)[2][0][0]);
-//		}
-		
+	{		
 		if (fq==100)
 			return blocs;
 		
@@ -34,32 +57,33 @@ public class Quantification {
 				}
 			
 			blocsQuant.add(blocQuant);
-		}
-		
-//		for (int b=0;b<blocsQuant.size();b++)
-//		{
-//			System.out.println(blocsQuant.get(b)[0][0][0]+" "+blocsQuant.get(b)[1][0][0]+" "+blocsQuant.get(b)[2][0][0]);
-//		}
-		
+		}		
+
 		return blocsQuant;
 	}
-	
+		
+	/**n
+	 * C1+C2+C3+C4+C5+C6(N-1)+C7N+C8(N-1)N+C9(N-1)N*N+C10N*N*N+C11N*N*N+C12N*N*N
+	 * C13N+C14
+	 *  
+	 *  K+N+N+N^2+N^3+N^3+N^3+N^3+N+C14
+	 *  
+	 * O(N^3)
+	 * 
+	 * @param Liste de blocs
+	 * @param degrée de qualité
+	 */	
 	public static List<int[][][]> UnDo(List<int[][][]> blocs, int fq)
 	{
 		if (fq==100)
 			return blocs;
-		
-//		for (int b=0;b<blocs.size();b++)
-//		{
-//			System.out.println(blocs.get(b)[0][0][0]+" "+blocs.get(b)[1][0][0]+" "+blocs.get(b)[2][0][0]);
-//		}
 		
 		List<int[][][]> blocsUnQuant = new LinkedList<int[][][]>();
 		
 		InitMatrice();
 		double a = (fq<=50 ? (double)(50/fq) : (double)(200-2*fq)/100);
 		
-		for (int[][][] bloc : blocs)
+		for (int[][][] bloc : blocs)//6
 		{
 			int[][][] blocUnQuant = new int[Main.COLOR_SPACE_SIZE][8][8];
 			for (int i=0;i<8;i++)
@@ -72,15 +96,17 @@ public class Quantification {
 			
 			blocsUnQuant.add(blocUnQuant);
 		}
-		
-//		for (int b=0;b<blocsUnQuant.size();b++)
-//		{
-//			System.out.println(blocsUnQuant.get(b)[0][0][0]+" "+blocsUnQuant.get(b)[1][0][0]+" "+blocsUnQuant.get(b)[2][0][0]);
-//		}
+
 		
 		return blocsUnQuant;
 	}
 	
+	/**n  
+	 *  C1+...+C128 = K = 1
+	 *  
+	 * O(1)
+	 *	
+	 */	
 	private static void InitMatrice()
 	{
 		Y[0][0]=46;

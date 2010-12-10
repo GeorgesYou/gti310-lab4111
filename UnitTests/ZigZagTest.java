@@ -1,3 +1,19 @@
+/******************************************************
+ Laboratoire #4 : Compression quasi-JPEG
+ 
+ Cours :             GTI310
+ Session :           Automne 2010
+ Groupe :            01
+ Projet :            Laboratoire #4
+ Étudiant(e)(s) :    Gabriel Desmarais
+ 					 Marie-Ève Benoit
+ Code(s) perm. :     DESG24078908
+ 					 BENM22568707
+ Chargée de lab. :   Jean-François Franche 
+ Nom du fichier :    Data.java
+ Date crée :         2010-12-1
+ Date dern. modif.   2010-12-1
+ *******************************************************/
 package UnitTests;
 import java.util.LinkedList;
 import java.util.List;
