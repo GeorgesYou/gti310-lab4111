@@ -10,7 +10,7 @@
  Code(s) perm. :     DESG24078908
  					 BENM22568707
  Chargée de lab. :   Jean-François Franche 
- Nom du fichier :    Data.java
+ Nom du fichier :    BlocManagerTest.java
  Date crée :         2010-12-1
  Date dern. modif.   2010-12-1
  *******************************************************/
@@ -42,13 +42,8 @@ public class BlocManagerTest extends TestCase{
 		}
 	
 		int[][][] imageYUV = ConvertColor.convertRGBToYUV(imageRGB);
-		
-		
-		
-		
-		
-		
 	}
+	
 	public void testSplit()
 	{	
 		int[][][] imageYUV = new int[Main.COLOR_SPACE_SIZE][8][8];

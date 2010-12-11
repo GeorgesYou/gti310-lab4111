@@ -10,7 +10,7 @@
  Code(s) perm. :     DESG24078908
  					 BENM22568707
  Chargée de lab. :   Jean-François Franche 
- Nom du fichier :    Data.java
+ Nom du fichier :    Quantification.java
  Date crée :         2010-12-1
  Date dern. modif.   2010-12-1
  *******************************************************/
