@@ -1,4 +1,3 @@
-
 /******************************************************
  Laboratoire #4 : Compression quasi-JPEG
  
@@ -11,14 +10,14 @@
  Code(s) perm. :     DESG24078908
  					 BENM22568707
  Chargée de lab. :   Jean-François Franche 
- Nom du fichier :    Data.java
+ Nom du fichier :    Main.java
  Date crée :         2010-12-1
  Date dern. modif.   2010-12-1
- *******************************************************/package gti310.tp4;
+ *******************************************************/
+package gti310.tp4;
 
 import java.util.LinkedList;
 import java.util.List;
-
 
 
 /**
@@ -62,7 +61,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		//args = new String[]{"peppers.ppm","10"};
+//		args = new String[]{"lena.ppm","50"};
 		args = new String[]{"output.szl"};
 
 		if (args[0].substring(args[0].length()-3, args[0].length()).equals("ppm"))
